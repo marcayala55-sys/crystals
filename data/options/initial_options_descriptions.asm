@@ -8,7 +8,9 @@ InitialOptionDescriptions:
 	dw .EVs
 	dw .Experience
 	dw .AffectionBonus
+if !DEF(NO_RTC)
 	dw .RTC
+endc
 	dw .PerfectIVs
 	dw .TradedMon
 	dw .EvolveInBattle
@@ -102,6 +104,7 @@ InitialOptionDescriptions:
 	line "Gen 6."
 	prompt
 
+if !DEF(NO_RTC)
 .RTC:
 	text "Use the Real-Time"
 	line "Clock function to"
@@ -111,11 +114,11 @@ InitialOptionDescriptions:
 	line "or emulator does"
 	cont "not support RTC,"
 
-	assert 24 % NO_RTC_SPEEDUP == 0
 	para "disable this to"
 	line "make each in-game"
-	cont STRFMT("day last %d hours.", 24 / NO_RTC_SPEEDUP) ; 24 / 6 == 4
+	cont STRFMT("day last %d hours.", 24 / NO_RTC_SPEEDUP)
 	prompt
+endc
 
 .PerfectIVs:
 	text "Stats are calcu-"

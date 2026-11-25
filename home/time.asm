@@ -1,6 +1,8 @@
 ; Functions relating to the timer interrupt and the real-time-clock.
 
-; do not talk to the RTC hardware in the no-RTC patch
+; Latch the MBC3 RTC. On MBC5 this write is ignored ($6000 is not a register).
+; Callers that select RAMB_RTC_* banks are compiled out when NO_RTC is set,
+; because those bank numbers would alias SRAM on an MBC5 cart.
 LatchClock::
 ; latch clock counter data
 	xor a
@@ -18,7 +20,10 @@ UpdateTime::
 
 GetClock::
 ; store clock data in wRTCDayHi-wRTCSeconds
-
+if DEF(NO_RTC)
+; Software clock already lives in wRTCDayHi-wRTCSeconds.
+	ret
+else
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	ret z
@@ -62,6 +67,7 @@ GetClock::
 
 ; unlatch clock / disable clock r/w
 	jmp CloseSRAM
+endc
 
 FixDays::
 ; fix day count
@@ -198,8 +204,10 @@ PanicResetClock::
 
 SetClock::
 ; set clock data from hram
-
-; do not talk to the RTC hardware in the no-RTC patch
+if DEF(NO_RTC)
+; wRTCDayHi-wRTCSeconds is the clock. Do not write MBC3 RTC registers.
+	ret
+else
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	ret z
@@ -242,6 +250,7 @@ SetClock::
 
 ; cleanup
 	jmp CloseSRAM ; unlatch clock, disable clock r/w
+endc
 
 RecordRTCStatus::
 ; append flags to sRTCStatusFlags

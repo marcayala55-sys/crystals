@@ -124,6 +124,9 @@ OptionsShared_RunLoop:
 	jr z, .common_exit
 	ld hl, wInitialOptions2
 	res RESET_INIT_OPTS, [hl]
+if DEF(NO_RTC)
+	res RTC_OPT, [hl]
+endc
 .common_exit
 	ld de, SFX_TRANSACTION
 	call PlaySFX

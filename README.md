@@ -1,5 +1,7 @@
 # Pokémon Polished Crystal
 
+This fork starts from [Rangi42/polishedcrystal](https://github.com/Rangi42/polishedcrystal) `master` at `3f85a7ff` (24 Nov 2026). The default ROM is an **MBC5** cart: **4 MB** ROM (256 banks), **32 KB** battery-backed SRAM, and no RTC. Time uses the existing software clock, so one in-game day takes 2 hours of play and a week takes about 14 hours. The in-game clock can still be set.
+
 This is a custom Pokémon game based on [the Pokémon Crystal disassembly](https://github.com/pret/pokecrystal).
 
 My goal is to create what the title says: an improved, polished version of Pokémon Crystal. It fixes bugs, takes into account the official game changes since 2001, and adds some new ideas of my own. Many features restore what was removed from R/B/Y, or original to HG/SS.

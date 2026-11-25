@@ -16,8 +16,10 @@ SwitchToMapScriptsBank::
 
 SECTION "rst08 Bankswitch", ROM0[$0008]
 Bankswitch::
+; MBC5: $2000 is the low 8 bits (banks 0-255). The 9th bit ($3000) is
+; cleared once in Init and must stay 0 for this 4 MB ROM.
 	ldh [hROMBank], a
-	ld [rROMB], a
+	ld [rROMB0], a
 	ret
 
 _de_::

@@ -61,7 +61,11 @@ SetInitialOptions:
 .BGPalettes:
 INCLUDE "gfx/options/initial_options_bg.pal"
 
+if DEF(NO_RTC)
+DEF NUM_INITIAL_MENU_OPTIONS EQU 10
+else
 DEF NUM_INITIAL_MENU_OPTIONS EQU 11
+endc
 
 InitialOptions_CallOptionRoutine:
 	ld a, [wMenuSelection]
@@ -76,7 +80,9 @@ InitialOptions_CallOptionRoutine:
 	dw InitialOptions_EVs
 	dw InitialOptions_ExpScaling
 	dw InitialOptions_AffectionBonus
+if !DEF(NO_RTC)
 	dw InitialOptions_RTC
+endc
 	dw InitialOptions_PerfectIVs
 	dw InitialOptions_TradedMon
 	dw InitialOptions_EvolveInBattle
@@ -286,6 +292,7 @@ InitialOptions_AffectionBonus:
 	ld de, YesString
 	jmp OptionsShared_PlaceStringAtValueCoord
 
+if !DEF(NO_RTC)
 InitialOptions_RTC:
 	ld hl, wInitialOptions2
 	ldh a, [hJoyPressed]
@@ -305,6 +312,7 @@ InitialOptions_RTC:
 	set RTC_OPT, [hl]
 	ld de, YesString
 	jmp OptionsShared_PlaceStringAtValueCoord
+endc
 
 InitialOptions_PerfectIVs:
 	ld hl, wInitialOptions

@@ -1459,7 +1459,7 @@ wInitialOptions2::
 ; - %01: classic EVs (no 510 cap)
 ; - %10: modern EVs (510 cap)
 ; bit 2: no exp on/off (cannot be set together with scaled exp)
-; bit 3: use RTC
+; bit 3: use RTC (forced off on NO_RTC builds; MBC5 has no RTC)
 ; bit 4: evolve in battle
 ; bits 5-6: unused
 ; bit 7: ask to reset at start

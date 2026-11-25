@@ -6,7 +6,9 @@ InitialOptionNames:
 	dw .EVs
 	dw .Experience
 	dw .Affection
+if !DEF(NO_RTC)
 	dw .RTC
+endc
 	dw .PerfectStats
 	dw .TradedMon
 	dw .EvolveInBattle
@@ -25,8 +27,10 @@ InitialOptionNames:
 	db "Experience gain@"
 .Affection:
 	db "Affection bonus@"
+if !DEF(NO_RTC)
 .RTC:
 	db "Real-time clock@"
+endc
 .PerfectStats:
 	db "Perfect stats@"
 .TradedMon:

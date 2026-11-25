@@ -210,6 +210,11 @@ ROMX $49
 ROMX $4A
 	"Dynamic Pals System"
 
+; One assigned section past bank $7F makes rgblink pad the image to 4 MB
+; (256 banks). Banks with no sections stay free space.
+ROMX $FF
+	"ROM Expansion"
+
 VRAM $0
 	"VRAM0"
 

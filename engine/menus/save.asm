@@ -284,6 +284,11 @@ ValidateSave:
 SaveOptions:
 	ld a, BANK(sOptions)
 	call GetSRAMBank
+if DEF(NO_RTC)
+	; Never persist a request to talk to MBC3 RTC registers.
+	ld hl, wInitialOptions2
+	res RTC_OPT, [hl]
+endc
 	ld hl, wOptions
 	ld de, sOptions
 	ld bc, wOptionsEnd - wOptions
@@ -507,6 +512,10 @@ CheckPrimarySaveFile:
 	rst CopyBytes
 	ld a, [sOptions3]
 	ld [wOptions3], a
+if DEF(NO_RTC)
+	ld hl, wInitialOptions2
+	res RTC_OPT, [hl]
+endc
 	call CloseSRAM
 	ld a, $1
 	ld [wSaveFileExists], a
@@ -532,6 +541,10 @@ CheckBackupSaveFile:
 	rst CopyBytes
 	ld a, [sBackupOptions3]
 	ld [wOptions3], a
+if DEF(NO_RTC)
+	ld hl, wInitialOptions2
+	res RTC_OPT, [hl]
+endc
 	ld a, $2
 	ld [wSaveFileExists], a
 

@@ -18,12 +18,16 @@ NextCallReceiveDelay:
 .okay
 	ld e, a
 	ld d, 0
+if DEF(NO_RTC)
+	ld hl, .ReceiveCallDelaysNoRTC
+else
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	ld hl, .ReceiveCallDelays
 	jr nz, .using_rtc
 	ld hl, .ReceiveCallDelaysNoRTC
 .using_rtc
+endc
 	add hl, de
 	ld a, [hl]
 	ld hl, wReceiveCallDelay_MinsRemaining
@@ -207,12 +211,16 @@ Special_SampleKenjiBreakCountdown:
 	ret
 
 StartBugContestTimer:
+if DEF(NO_RTC)
+	ld a, BUG_CONTEST_MINUTES * NO_RTC_SPEEDUP
+else
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	ld a, BUG_CONTEST_MINUTES
 	jr nz, .using_rtc
 	ld a, BUG_CONTEST_MINUTES * NO_RTC_SPEEDUP
 .using_rtc
+endc
 	ld [wBugContestMinsRemaining], a
 	xor a ; BUG_CONTEST_SECONDS
 	ld [wBugContestSecsRemaining], a

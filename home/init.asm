@@ -41,6 +41,11 @@ _Start::
 
 Init::
 	di
+	; MBC5 stores ROM bank bit 8 at $3000. A 4 MB image is banks 0-255,
+	; so that bit must be 0 before any bankswitch. Bank 0 stays mapped
+	; at $0000-$3FFF while this write happens.
+	xor a
+	ld [rROMB1], a
 	ld a, BANK(_Init)
-	ld [rROMB], a
+	ld [rROMB0], a
 	jmp _Init ; far-ok
