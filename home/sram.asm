@@ -7,7 +7,8 @@ GetSRAMBank::
 	; switch to sram bank a
 	push af
 
-	; latch clock data
+	; MBC3 latches the RTC here. MBC5 ignores $6000; do not put a RAM bank
+	; number in this write.
 	ld a, 1
 	ld [rRTCLATCH], a
 
@@ -45,7 +46,7 @@ GetSRAMBank::
 CloseSRAM::
 	push af
 	ld a, RAMG_SRAM_DISABLE
-; reset clock latch for next time
+; MBC3: unlatch the RTC. MBC5: $6000 is unused. The same 0 disables SRAM below.
 	ld [rRTCLATCH], a
 ; disable sram/clock write
 	ld [rRAMG], a

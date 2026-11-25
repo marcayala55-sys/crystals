@@ -741,3 +741,9 @@ INCLUDE "audio/music/printer.asm"
 SECTION "LureMenu", ROMX
 
 INCLUDE "engine/menus/lure_menu.asm"
+
+
+SECTION "ROM Expansion", ROMX
+
+; Sits at $4000 in bank $FF so the other $3FFF bytes of this bank stay free.
+	db $ff

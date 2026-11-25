@@ -8,6 +8,14 @@
 
 ***Note: The following changelog may contain spoilers.***
 
+## Fork (MBC5, software clock)
+
+Baseline is upstream `master` at `3f85a7ff` (24 Nov 2026). History above that commit is unchanged.
+
+- Cartridge is MBC5 with a 4 MB ROM and 32 KB battery SRAM. The hardware RTC is not used.
+- The software clock from the no-RTC option is always on. One in-game day takes 2 hours of play.
+- The new-game "Real-time clock" option is not offered.
+
 ## v3.2.3
 
 Critical hotfix release.

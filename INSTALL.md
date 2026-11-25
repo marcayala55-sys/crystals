@@ -136,11 +136,15 @@ To build **polishedcrystal.gbc**:
 make
 ```
 
+That image is an MBC5 ROM (`MBC5+RAM+BATTERY` in the header): 4 MB, 32 KB battery SRAM, no RTC. RGBDS **1.0.4** is required. Time is a software clock (a full in-game day takes 2 hours of play). The Real-time clock new-game option is not offered.
+
 To build other versions:
 
 ```bash
-make [faithful] [hgss|monochrome|noir] [debug]
+make [faithful] [hgss|monochrome|noir] [debug] [pocket]
 ```
+
+`pocket` is the Analogue Pocket build. It uses the same MBC5 cart and software clock, and also remaps the LCD registers for the Pocket. `faithful`, `debug`, `monochrome`, `noir`, and `hgss` are the same MBC5 image with those compile-time options.
 
 For example, to build a mononchrome faithful version:
 

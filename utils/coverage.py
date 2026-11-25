@@ -17,7 +17,7 @@ def main():
 	mapfile = sys.argv[1] if len(sys.argv) >= 2 else 'contents/polishedcrystal.map'
 	filename = sys.argv[2] if len(sys.argv) >= 3 else 'coverage.png'
 
-	num_banks = 0x80
+	num_banks = 0x100 # 4 MB MBC5 image, 256 banks of 16 KB
 	bank_mask = 0x3FFF
 	bank_size = 0x4000 # bytes
 
@@ -27,7 +27,7 @@ def main():
 
 	pixels_per_bank = bank_size // bpp # 2048 pixels
 	bank_width = pixels_per_bank // height # 8 pixels
-	width = bank_width * num_banks # 1024 pixels
+	width = bank_width * num_banks # 2048 pixels
 
 	r = MapReader()
 	with open(mapfile, 'r', encoding='utf-8') as f:

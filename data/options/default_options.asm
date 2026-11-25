@@ -18,4 +18,9 @@ endc
 ; wInitialOptions
 	db (1 << NATURES_OPT) | (1 << ABILITIES_OPT) | (1 << PSS_OPT) | (1 << COLOR_VARY_OPT)
 ; wInitialOptions2
+if DEF(NO_RTC)
+	; No cartridge RTC. RTC_OPT must stay clear so nothing selects MBC3 RTC banks.
+	db EVS_OPT_MODERN | (1 << EVOLVE_IN_BATTLE_OPT)
+else
 	db EVS_OPT_MODERN | (1 << RTC_OPT) | (1 << EVOLVE_IN_BATTLE_OPT)
+endc

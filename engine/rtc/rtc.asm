@@ -27,6 +27,7 @@ SaveRTC:
 	ld a, $a
 	ld [rRAMG], a
 
+if !DEF(NO_RTC)
 ; do not talk to the RTC hardware in the no-RTC patch
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
@@ -41,6 +42,7 @@ SaveRTC:
 	; clear clock overflow bit
 	res 7, [hl]
 .no_rtc
+endc
 
 	; select the SRAM bank for the saved RTC status flags
 	ld a, BANK(sRTCStatusFlags)
@@ -59,6 +61,9 @@ StartClock::
 	; bit 5: Day count exceeds 139
 	; bit 6: Day count exceeds 255
 	call c, RecordRTCStatus
+if DEF(NO_RTC)
+	ret
+else
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	ret z
@@ -82,6 +87,7 @@ StartClock::
 	ld [rRTCREG], a
 	; remember to switch off the SRAM
 	jmp CloseSRAM
+endc
 
 _FixDays:
 	ld hl, wRTCDayHi

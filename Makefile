@@ -30,11 +30,13 @@ Q :=
 
 POCKET_LOGO = gfx/logo/pocket.bin
 
-RGBASMFLAGS    = -Weverything -Wtruncation=1 -E -Q8 -P includes.asm
+RGBASMFLAGS    = -Weverything -Wtruncation=1 -E -Q8 -P includes.asm -DNO_RTC
 RGBASMVCFLAGS  = $(RGBASMFLAGS) -DVIRTUAL_CONSOLE
 RGBLINKFLAGS   = -Weverything -Wtruncation=1 -M -n $(ROM_NAME).sym -m $(ROM_NAME).map -p $(FILLER)
 RGBLINKVCFLAGS = -Weverything -M -n $(ROM_NAME)_vc.sym -m $(ROM_NAME)_vc.map -p $(FILLER)
-RGBFIXFLAGS    = -Weverything -csjv -t $(TITLE) -i $(MCODE) -n $(ROMVERSION) -p $(FILLER) -k 01 -l 0x33 -m MBC3+TIMER+RAM+BATTERY -r 3
+# MBC5, 32 KB battery SRAM (-r 3). No timer: this cart has no RTC.
+# ROM size is the image size; bank $FF in layout.link forces a 4 MB ROM.
+RGBFIXFLAGS    = -Weverything -csjv -t $(TITLE) -i $(MCODE) -n $(ROMVERSION) -p $(FILLER) -k 01 -l 0x33 -m MBC5+RAM+BATTERY -r 3
 RGBGFXFLAGS    = -Weverything
 
 ifeq ($(filter faithful,$(MAKECMDGOALS)),faithful)
@@ -63,7 +65,8 @@ ifeq ($(filter pocket,$(MAKECMDGOALS)),pocket)
 MODIFIERS :=
 NAME := pkpc
 EXTENSION := pocket
-RGBASMFLAGS += -DANALOGUE_POCKET -DNO_RTC
+# Pocket uses the same MBC5 / no-RTC cart. -DNO_RTC comes from RGBASMFLAGS.
+RGBASMFLAGS += -DANALOGUE_POCKET
 RGBFIXFLAGS = -Weverything -csjv -t $(TITLE) -i $(MCODE) -n $(ROMVERSION) -p $(FILLER) -k 01 -l 0x33 -m MBC5+RAM+BATTERY -r 3 -L $(POCKET_LOGO)
 endif
 ifeq ($(filter huffman,$(MAKECMDGOALS)),huffman)

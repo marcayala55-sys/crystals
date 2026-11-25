@@ -161,10 +161,12 @@ MainMenu_PrintCurrentTimeAndDay:
 
 ;; kroc - NoRTC patch
 ;; to get the main menu to show the correct time of the save,
-;; we need to pull the backed-up RTC time from the save file
+;; pull the backed-up software clock from the save file
+if !DEF(NO_RTC)
 	ld a, [wInitialOptions2]
 	and 1 << RTC_OPT
 	jr nz, .using_rtc
+endc
 	ld a, BANK(sPlayerData)
 	call GetSRAMBank
 	ld hl, sPlayerData + wRTCDayHi - wPlayerData
@@ -172,7 +174,9 @@ MainMenu_PrintCurrentTimeAndDay:
 	ld bc, 5
 	rst CopyBytes
 	call CloseSRAM
+if !DEF(NO_RTC)
 .using_rtc
+endc
 
 	call UpdateTime
 	bccoord 1, 15
